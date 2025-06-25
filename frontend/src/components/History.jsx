@@ -40,7 +40,7 @@ const History = () => {
     if (!window.confirm('Are you sure you want to delete this expense?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5500/delete/${id}`, {
+      const res = await fetch(`${API_URL}/delete/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
