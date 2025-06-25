@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './Verifyotp.css';
 
 function Verifyotp() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -21,7 +23,7 @@ function Verifyotp() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5500/verifyotp', {
+      const res = await fetch(`${API_URL}/verifyotp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
