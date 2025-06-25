@@ -41,7 +41,7 @@ const Create = () => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5500/createexpence', {
+      const res = await fetch(`${API_URL}/createexpence`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
