@@ -7,6 +7,7 @@ const verifyotp = require('./verification/verifyotp')
 const verify = require('./verification/verifytoken');
 const Expencemodel = require("./models/Expense");
 const dotenv = require("dotenv").config();
+const cors = require('cors')
 mongoose.connect(process.env.MONGOPATH).then(()=>{
     console.log("mongodb connected")
 }).catch(()=>{
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGOPATH).then(()=>{
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.post("/login", async (req, res) => {
   const { email } = req.body;
@@ -207,8 +209,8 @@ app.get('/monthtotal',verify,async(req,res)=>{
 app.get('/monthlyexpences', verify, async (req, res) => {
   const userId = req.user.userId;
   const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
   try {
