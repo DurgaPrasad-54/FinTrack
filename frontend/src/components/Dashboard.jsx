@@ -149,28 +149,33 @@ const Dashboard = () => {
       </div>
 
       <div className="charts-wrapper">
+
         {/* Category-wise Pie Chart */}
         <div className="chart-box">
           <h4>Category-wise Expenses</h4>
-          <ResponsiveContainer width="100%" height={320}>
-            <PieChart>
-              <Pie
-                data={categoryData}
-                dataKey="total"
-                nameKey="_id"
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                labelLine={false}
-                label={false}
-              >
-                {categoryData.map(entry => (
-                  <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
-            </PieChart>
-          </ResponsiveContainer>
+          {categoryData && categoryData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie
+                  data={categoryData}
+                  dataKey="total"
+                  nameKey="_id"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  labelLine={false}
+                  label={false}
+                >
+                  {categoryData.map(entry => (
+                    <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="no-data">No data available</p>
+          )}
           <ul className="category-list">
             {categoryData.map(entry => (
               <li key={entry._id} style={{ color: categoryColorMap[entry._id] }}>
@@ -183,25 +188,29 @@ const Dashboard = () => {
         {/* Present Month Pie Chart */}
         <div className="chart-box">
           <h4>This Month's Expenses</h4>
-          <ResponsiveContainer width="100%" height={320}>
-            <PieChart>
-              <Pie
-                data={presentMonthData}
-                dataKey="total"
-                nameKey="_id"
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                labelLine={false}
-                label={false}
-              >
-                {presentMonthData.map(entry => (
-                  <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
-            </PieChart>
-          </ResponsiveContainer>
+          {presentMonthData && presentMonthData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie
+                  data={presentMonthData}
+                  dataKey="total"
+                  nameKey="_id"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  labelLine={false}
+                  label={false}
+                >
+                  {presentMonthData.map(entry => (
+                    <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="no-data">No data available</p>
+          )}
           <ul className="category-list">
             {presentMonthData.map(entry => (
               <li key={entry._id} style={{ color: categoryColorMap[entry._id] }}>
@@ -214,21 +223,25 @@ const Dashboard = () => {
         {/* Bar Chart */}
         <div className="bar-chart-container">
           <h4>Monthly Expenses</h4>
-          <div style={{ width: `${fullMonthlyData.length * 90}px`, height: 350 }}>
-            <BarChart data={fullMonthlyData} width={fullMonthlyData.length * 90} height={350}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="monthYear"
-                tick={renderCustomizedTick}
-                interval={0}
-                height={60}
-              />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="totalAmount" fill="#8884d8" barSize={35} />
-            </BarChart>
-          </div>
+          {fullMonthlyData && fullMonthlyData.length > 0 ? (
+            <div style={{ width: `${fullMonthlyData.length * 90}px`, height: 350 }}>
+              <BarChart data={fullMonthlyData} width={fullMonthlyData.length * 90} height={350}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="monthYear"
+                  tick={renderCustomizedTick}
+                  interval={0}
+                  height={60}
+                />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="totalAmount" fill="#8884d8" barSize={35} />
+              </BarChart>
+            </div>
+          ) : (
+            <p className="no-data">No data available</p>
+          )}
         </div>
       </div>
     </div>
