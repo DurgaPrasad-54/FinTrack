@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './History.css';
 
 const History = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -19,7 +20,7 @@ const History = () => {
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5500/history', {
+      const res = await fetch(`${API_URL}/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

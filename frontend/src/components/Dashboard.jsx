@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const [monthTotal, setMonthTotal] = useState(0);
@@ -20,23 +21,23 @@ const Dashboard = () => {
   const headers = { Authorization: `Bearer ${token}` };
 
   useEffect(() => {
-    fetch('http://localhost:5500/totalamount', { headers })
+    fetch(`${API_URL}/totalamount`, { headers })
       .then(res => res.json())
       .then(data => setTotal(data.Totalamount));
 
-    fetch('http://localhost:5500/monthtotal', { headers })
+    fetch(`${API_URL}/monthtotal`, { headers })
       .then(res => res.json())
       .then(data => setMonthTotal(data.MonthExpence));
 
-    fetch('http://localhost:5500/category', { headers })
+    fetch(`${API_URL}/category`, { headers })
       .then(res => res.json())
       .then(data => setCategoryData(data.data));
 
-    fetch('http://localhost:5500/presentmonth', { headers })
+    fetch(`${API_URL}/presentmonth`, { headers })
       .then(res => res.json())
       .then(data => setPresentMonthData(data.data));
 
-    fetch('http://localhost:5500/monthlyexpences', { headers })
+    fetch(`${API_URL}/monthlyexpences`, { headers })
       .then(res => res.json())
       .then(data => setMonthlyData(data.data));
   }, []);

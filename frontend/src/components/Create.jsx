@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './Create.css';
 
 const Create = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
