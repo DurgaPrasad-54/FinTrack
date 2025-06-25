@@ -257,6 +257,45 @@ app.get("/history",verify,async(req,res)=>{
     }
 })
 
+app.put('/update/:id',verify,async(req,res)=>{
+    const userId = req.user.userId
+    const id = req.params.id
+    const {category,amount} = req.body;
+    try{
+        const updated = await Expencemodel.findOneAndUpdate({userId:userId,_id:id},{$set:{category,amount}},{new:true})
+        if(!updated){
+            res.send({message:"Update Failed"})
+        }
+        res.send({message:"Updated Successfully",data:updated})
+
+    }
+    catch(err){
+        res.send({message:"Update failed",error:err})
+    }
+
+})
+
+app.delete('/delete/:id', verify, async (req, res) => {
+  const userId = req.user.userId;
+  const expenseId = req.params.id;
+
+  try {
+    const deleted = await Expencemodel.findOneAndDelete({
+      _id: expenseId,
+      userId: userId
+    });
+
+    if (!deleted) {
+      return res.status(404).send({ message: "Expense not found or unauthorized" });
+    }
+
+    res.send({ message: "Expense deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting expense:", err);
+    res.status(500).send({ message: "Failed to delete expense", error: err.message });
+  }
+});
+
 
 
 
