@@ -42,7 +42,7 @@ app.post("/login", async (req, res) => {
     else {
       const updateuser = await Usermodel.findOneAndUpdate({ email },{ $set: { otp, otpexpire } },{ new: true });
 
-      const sendotp = await sendMail(email,"Your Login OTP for FinTRACK",`Your OTP is ${updateuser.otp}`);
+      const sendotp = await sendMail(email,"Your Login OTP for FinTRACK",`Your OTP Expires in 15 minutes ${updateuser.otp}`);
 
       if (!sendotp) {
         return res.status(500).send({ message: "OTP sending failed" });
