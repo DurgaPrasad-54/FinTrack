@@ -1,10 +1,11 @@
+/* Main container */
 .history-container {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px 25px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
@@ -16,6 +17,7 @@
   font-size: 1.8rem;
 }
 
+/* Table for desktop */
 .history-table {
   width: 100%;
   border-collapse: collapse;
@@ -58,6 +60,7 @@
   font-weight: 600;
   transition: background-color 0.3s ease;
   user-select: none;
+  margin-bottom: 5px;
 }
 
 .history-table button:hover {
@@ -69,7 +72,7 @@
   cursor: not-allowed;
 }
 
-/* Back button style */
+/* Back button */
 .back-btn {
   display: inline-block;
   margin-bottom: 20px;
@@ -89,17 +92,44 @@
   background-color: #135ba1;
 }
 
-/* Responsive */
+/* Responsive for small screens */
 @media (max-width: 600px) {
-  .history-container {
-    margin: 20px 15px;
-    padding: 15px 18px;
+  .history-table,
+  .history-table thead,
+  .history-table tbody,
+  .history-table th,
+  .history-table td,
+  .history-table tr {
+    display: block;
+    width: 100%;
   }
 
-  .history-table th,
+  .history-table thead {
+    display: none;
+  }
+
+  .history-table tr {
+    background-color: #fdfdfd;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+
   .history-table td {
     padding: 8px 10px;
-    font-size: 0.9rem;
+    text-align: left;
+    position: relative;
+    font-size: 0.95rem;
+  }
+
+  .history-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    color: #1976d2;
   }
 
   .back-btn {

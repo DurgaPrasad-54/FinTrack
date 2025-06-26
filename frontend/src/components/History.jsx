@@ -78,7 +78,7 @@ const History = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5500/update/${id}`, {
+      const res = await fetch(`${API_URL}/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ const History = () => {
           <tbody>
             {history.map(({ _id, category, amount, date }) => (
               <tr key={_id}>
-                <td>
+                <td data-label="Category">
                   {editId === _id ? (
                     <input
                       type="text"
@@ -137,7 +137,7 @@ const History = () => {
                     category
                   )}
                 </td>
-                <td>
+                <td data-label="Amount (₹)">
                   {editId === _id ? (
                     <input
                       type="number"
@@ -150,13 +150,11 @@ const History = () => {
                     amount
                   )}
                 </td>
-                <td>{new Date(date).toLocaleDateString()}</td>
-                <td>
+                <td data-label="Date">{new Date(date).toLocaleDateString()}</td>
+                <td data-label="Actions">
                   {editId === _id ? (
                     <>
-                      <button onClick={() => handleUpdate(_id)} style={{ marginRight: 8 }}>
-                        Save
-                      </button>
+                      <button onClick={() => handleUpdate(_id)} style={{ marginRight: 8 }}>Save</button>
                       <button onClick={cancelEdit}>Cancel</button>
                     </>
                   ) : (

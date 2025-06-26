@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   PieChart, Pie, Cell, Tooltip,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
-  ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend
 } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
@@ -15,7 +14,6 @@ const Dashboard = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [presentMonthData, setPresentMonthData] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
-  const [showLogout, setShowLogout] = useState(false);
 
   const token = localStorage.getItem('auth-token');
   const headers = { Authorization: `Bearer ${token}` };
@@ -42,8 +40,7 @@ const Dashboard = () => {
       .then(data => setMonthlyData(data.data));
   }, []);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A', '#FF6666'];
-
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A', '#FF6666', '#4CAF50', '#9C27B0'];
   const allCategories = [
     ...new Set([
       ...categoryData.map(item => item._id),
@@ -56,8 +53,7 @@ const Dashboard = () => {
     categoryColorMap[cat] = COLORS[i % COLORS.length];
   });
 
-  const MONTH_NAMES = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
 
@@ -107,7 +103,7 @@ const Dashboard = () => {
     localStorage.removeItem('auth-token');
     setTimeout(() => {
       navigate('/');
-    }, 1000);
+    }, 500);
   };
 
   return (
@@ -115,27 +111,9 @@ const Dashboard = () => {
       <div className="dashboard-header">
         <h2>Dashboard</h2>
         <div className="header-actions">
-          <button className="header-btn" onClick={() => navigate('/create')}>
-            Add Expense
-          </button>
-          <button className="header-btn" onClick={() => navigate('/history')}>
-            History
-          </button>
-
-          <div
-            className="profile-wrapper"
-            onMouseEnter={() => setShowLogout(true)}
-            onMouseLeave={() => setShowLogout(false)}
-          >
-            <button className="header-btn profile-btn">Profile</button>
-            {showLogout && (
-              <div className="logout-dropdown">
-                <button onClick={handleLogout} className="logout-btn">
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+          <button className="header-btn" onClick={() => navigate('/create')}>Add Expense</button>
+          <button className="header-btn" onClick={() => navigate('/history')}>History</button>
+          <button className="header-btn logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </div>
 
@@ -149,30 +127,26 @@ const Dashboard = () => {
       </div>
 
       <div className="charts-wrapper">
-
         {/* Category-wise Pie Chart */}
         <div className="chart-box">
           <h4>Category-wise Expenses</h4>
-          {categoryData && categoryData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={320}>
-              <PieChart>
-                <Pie
-                  data={categoryData}
-                  dataKey="total"
-                  nameKey="_id"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={120}
-                  labelLine={false}
-                  label={false}
-                >
-                  {categoryData.map(entry => (
-                    <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
-              </PieChart>
-            </ResponsiveContainer>
+          {categoryData.length > 0 ? (
+            <PieChart width={300} height={300}>
+              <Pie
+                data={categoryData}
+                dataKey="total"
+                nameKey="_id"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                labelLine={false}
+              >
+                {categoryData.map(entry => (
+                  <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
+            </PieChart>
           ) : (
             <p className="no-data">No data available</p>
           )}
@@ -188,26 +162,23 @@ const Dashboard = () => {
         {/* Present Month Pie Chart */}
         <div className="chart-box">
           <h4>This Month's Expenses</h4>
-          {presentMonthData && presentMonthData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={320}>
-              <PieChart>
-                <Pie
-                  data={presentMonthData}
-                  dataKey="total"
-                  nameKey="_id"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={120}
-                  labelLine={false}
-                  label={false}
-                >
-                  {presentMonthData.map(entry => (
-                    <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
-              </PieChart>
-            </ResponsiveContainer>
+          {presentMonthData.length > 0 ? (
+            <PieChart width={300} height={300}>
+              <Pie
+                data={presentMonthData}
+                dataKey="total"
+                nameKey="_id"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                labelLine={false}
+              >
+                {presentMonthData.map(entry => (
+                  <Cell key={entry._id} fill={categoryColorMap[entry._id]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value) => [`₹${value}`, 'Total']} />
+            </PieChart>
           ) : (
             <p className="no-data">No data available</p>
           )}
@@ -220,12 +191,15 @@ const Dashboard = () => {
           </ul>
         </div>
 
-        {/* Bar Chart */}
+        {/* Monthly Bar Chart */}
         <div className="bar-chart-container">
-          <h4>Monthly Expenses</h4>
-          {fullMonthlyData && fullMonthlyData.length > 0 ? (
-            <div style={{ width: `${fullMonthlyData.length * 90}px`, height: 350 }}>
-              <BarChart data={fullMonthlyData} width={fullMonthlyData.length * 90} height={350}>
+          {fullMonthlyData.length > 0 ? (
+            <div className="bar-chart-scroll-wrapper">
+              <BarChart
+                data={fullMonthlyData}
+                width={fullMonthlyData.length * 90}
+                height={350}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="monthYear"
